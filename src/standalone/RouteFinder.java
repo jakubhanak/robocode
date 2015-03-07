@@ -3,7 +3,6 @@ package standalone;
 import robocode.control.*;
 //import robocode.control.events.*;
 
-//asdfafd
 //...
 
 public class RouteFinder {

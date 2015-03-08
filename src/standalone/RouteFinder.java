@@ -28,8 +28,8 @@ public class RouteFinder {
 		engine.setVisible(true);
 
 		// Create the battlefield
-		int NumPixelRows = world.Generator.HEIGHT * world.Generator.PX_STEP;
-		int NumPixelCols = world.Generator.WIDTH * world.Generator.PX_STEP;
+		int NumPixelRows = world.Generator.ROWS * world.Generator.PX_STEP;
+		int NumPixelCols = world.Generator.COLS * world.Generator.PX_STEP;
 
 		BattlefieldSpecification battlefield = new BattlefieldSpecification(NumPixelRows, NumPixelCols); 
 

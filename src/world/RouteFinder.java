@@ -28,10 +28,10 @@ public class RouteFinder {
 		Generator gen = new Generator();
 		
 		// Create the battlefield
-		int NumPixelRows = Generator.ROWS * Generator.PX_STEP;
 		int NumPixelCols = Generator.COLS * Generator.PX_STEP;
+		int NumPixelRows = Generator.ROWS * Generator.PX_STEP;
 
-		BattlefieldSpecification battlefield = new BattlefieldSpecification(NumPixelRows, NumPixelCols);
+		BattlefieldSpecification battlefield = new BattlefieldSpecification(NumPixelCols, NumPixelRows);
 		
 
 		/*
@@ -42,21 +42,22 @@ public class RouteFinder {
 		RobotSpecification[] existingRobots = new RobotSpecification[Generator.NUM_OBSTACLES + 1];
 		RobotSetup[] robotSetups = new RobotSetup[Generator.NUM_OBSTACLES + 1];
 
-		for (int NdxObstacle = 0; NdxObstacle < Generator.NUM_OBSTACLES; NdxObstacle++) {
-
-			double InitialObstacleCol = (double) gen.obstacles[NdxObstacle].getX();
-			double InitialObstacleRow = (double) gen.obstacles[NdxObstacle].getY();
+		int NdxObstacle = 0;
+		for (Point p : gen.obstacles) {
+			// added offset so the tanks are in the middle of the tiles
+			double InitialObstacleCol = (double) p.getX_();
+			double InitialObstacleRow = (double) p.getY_();
 			existingRobots[NdxObstacle] = modelRobots[0];
-			robotSetups[NdxObstacle] = new RobotSetup(InitialObstacleCol, InitialObstacleRow, 0.0);
+			robotSetups[NdxObstacle++] = new RobotSetup(InitialObstacleCol, InitialObstacleRow, 0.0);
 		}
 
 		/*
 		 * Create the agent and place it in a random position without obstacle
 		 */
-		existingRobots[world.Generator.NUM_OBSTACLES] = modelRobots[1];
-		double InitialAgentCol = (double) gen.start.getX();
-		double InitialAgentRow = (double) gen.start.getY();
-		robotSetups[world.Generator.NUM_OBSTACLES] = new RobotSetup(InitialAgentCol, InitialAgentRow, 0.0);
+		existingRobots[Generator.NUM_OBSTACLES] = modelRobots[1];
+		double InitialAgentCol = (double) gen.start.getX_();
+		double InitialAgentRow = (double) gen.start.getY_();
+		robotSetups[Generator.NUM_OBSTACLES] = new RobotSetup(InitialAgentCol, InitialAgentRow, 0.0);
 
 		/* Create and run the battle */
 		BattleSpecification battleSpec = new BattleSpecification(battlefield, numberOfRounds, inactivityTime, gunCoolingRate,

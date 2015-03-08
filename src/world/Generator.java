@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import world.Point;
 
 public class Generator {
 
@@ -25,7 +24,7 @@ public class Generator {
 //	public static Point[] obstacles = new Point[NUM_OBSTACLES];
 //	public static Point[] agent = new Point[2];		
 	public Set<Point> obstacles = new HashSet<>();
-	public Point start;
+	public Point start, stop;
 	
 	
 	Random rand;
@@ -78,6 +77,21 @@ public class Generator {
 			Point point = new Point(x, y);
 			if (!obstacles.contains(point)) {
 				start = point;
+				return;
+			}
+		}
+	}
+	
+	public void addStop() {
+		// try to find free place for an obstacle
+		while (true) {
+			// -1 is due the offset
+			int x = randInt(0, COLS -1);
+			int y = randInt(0, ROWS -1);
+			
+			Point point = new Point(x, y);
+			if (!obstacles.contains(point) && start != point) {
+				stop = point;
 				return;
 			}
 		}

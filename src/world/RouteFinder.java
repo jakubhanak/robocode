@@ -1,4 +1,4 @@
-package standalone;
+package world;
 
 import robocode.control.*;
 //import robocode.control.events.*;

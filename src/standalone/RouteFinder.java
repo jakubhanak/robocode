@@ -45,10 +45,10 @@ public class RouteFinder {
 
 		for (int NdxObstacle = 0; NdxObstacle < world.Generator.NumObstacles; NdxObstacle++) {
 
-			// double InitialObstacleRow = null;
-			// double InitialObstacleCol = null;
+			 double InitialObstacleCol = 1;
+			 double InitialObstacleRow = 1;
 			existingRobots[NdxObstacle] = modelRobots[0];
-			robotSetups[NdxObstacle] = new RobotSetup(null, null, 0.0);
+			robotSetups[NdxObstacle] = new RobotSetup(InitialObstacleCol, InitialObstacleRow, 0.0);
 		}
 
 		/*

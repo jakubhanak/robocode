@@ -31,7 +31,7 @@ public class FirstRobot extends Robot {
 	}
 	
 	public void steps(int num) {
-		ahead(num * world.Generator.STEP);
+		ahead(num * world.Generator.PX_STEP);
 	}
 
 	private void turn(int dest) {

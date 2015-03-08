@@ -20,9 +20,7 @@ public class RouteFinder {
 		int sentryBorderSize = 50;
 		boolean hideEnemyNames = false;
 
-		// int NumObstacles = (int) Math.round(NumPixelCols * NumPixelRows * 0.3);
-		int NumObstacles = 5;
-		
+	
 		// Create the RobocodeEngine
 		RobocodeEngine engine = new RobocodeEngine(new java.io.File(location));
 
@@ -30,8 +28,8 @@ public class RouteFinder {
 		engine.setVisible(true);
 
 		// Create the battlefield
-		int NumPixelRows = world.Generator.HEIGHT;
-		int NumPixelCols = world.Generator.WIDTH;
+		int NumPixelRows = world.Generator.HEIGHT * world.Generator.PX_STEP;
+		int NumPixelCols = world.Generator.WIDTH * world.Generator.PX_STEP;
 
 		BattlefieldSpecification battlefield = new BattlefieldSpecification(NumPixelRows, NumPixelCols); 
 
@@ -42,10 +40,10 @@ public class RouteFinder {
 		 */
 		RobotSpecification[] modelRobots = engine.getLocalRepository("sample.SittingDuck,myrobot.FirstRobot*");
 
-		RobotSpecification[] existingRobots = new RobotSpecification[NumObstacles + 1];
-		RobotSetup[] robotSetups = new RobotSetup[NumObstacles + 1];
+		RobotSpecification[] existingRobots = new RobotSpecification[world.Generator.NumObstacles + 1];
+		RobotSetup[] robotSetups = new RobotSetup[world.Generator.NumObstacles + 1];
 
-		for (int NdxObstacle = 0; NdxObstacle < NumObstacles; NdxObstacle++) {
+		for (int NdxObstacle = 0; NdxObstacle < world.Generator.NumObstacles; NdxObstacle++) {
 
 			// double InitialObstacleRow = null;
 			// double InitialObstacleCol = null;
@@ -56,10 +54,10 @@ public class RouteFinder {
 		/*
 		 * Create the agent and place it in a random position without obstacle
 		 */
-		existingRobots[NumObstacles] = modelRobots[1];
+		existingRobots[world.Generator.NumObstacles] = modelRobots[1];
 		// double InitialAgentRow = 1;
 		// double InitialAgentCol = 1;
-		robotSetups[NumObstacles] = new RobotSetup(null, null, 0.0);
+		robotSetups[world.Generator.NumObstacles] = new RobotSetup(null, null, 0.0);
 
 		/* Create and run the battle */
 		BattleSpecification battleSpec = new BattleSpecification(battlefield, numberOfRounds, inactivityTime, gunCoolingRate,

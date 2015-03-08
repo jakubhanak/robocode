@@ -3,26 +3,16 @@ package standalone;
 import robocode.control.*;
 //import robocode.control.events.*;
 
-//movement
-
-//...
 
 public class RouteFinder {
 
+	
+	
 	public static void main(String[] args) {
 
-		// Create the RobocodeEngine, e.g. "C:/robocode"
-		RobocodeEngine engine = new RobocodeEngine(new java.io.File("/opt/robocode"));
-
-		// Show the Robocode battle view
-		engine.setVisible(true);
-
-		// Create the battlefield
-		int NumPixelRows = 800;
-		int NumPixelCols = 600;
-
-		BattlefieldSpecification battlefield = new BattlefieldSpecification(NumPixelRows, NumPixelCols); // 800x600
-
+		// Location of the robocode, e.g. "C:/robocode"
+		String location = "/opt/robocode";
+		
 		// Setup battle parameters
 		int numberOfRounds = 1;
 		long inactivityTime = 10000000;
@@ -32,6 +22,20 @@ public class RouteFinder {
 
 		// int NumObstacles = (int) Math.round(NumPixelCols * NumPixelRows * 0.3);
 		int NumObstacles = 5;
+		
+		// Create the RobocodeEngine
+		RobocodeEngine engine = new RobocodeEngine(new java.io.File(location));
+
+		// Show the Robocode battle view
+		engine.setVisible(true);
+
+		// Create the battlefield
+		int NumPixelRows = world.Generator.HEIGHT;
+		int NumPixelCols = world.Generator.WIDTH;
+
+		BattlefieldSpecification battlefield = new BattlefieldSpecification(NumPixelRows, NumPixelCols); 
+
+
 
 		/*
 		 * Create obstacles and place them at random so that no pair of obstacles are at the same position

@@ -1,49 +1,59 @@
 package world;
 
 import java.util.Random;
+import world.Coordinate;
 
 public class Generator {
 
+	private static final int SEED = 1;
+	
+	
 	public static final int PX_STEP = 64;
 
 	public static final int COLS = 12;
 	public static final int ROWS = 10;
 
-	private static final int SEED = 1;
 
-	public static int NumObstacles = (int) (COLS * ROWS * 0.3);
+	public static final int NUM_OBSTACLES = (int) (COLS * ROWS * 0.3);
 
 	
 	// Contains poistions of obstacles, start point and destination
-	public static int[] obstacles = new int[NumObstacles];
+	public Coordinate[] obstacles = new Coordinate[NUM_OBSTACLES];
+	public Coordinate start = new Coordinate();		
+	public Coordinate stop = new Coordinate();	
+
 
 	// Excuse the crudity of the code, never programmed in Java before
+	// Could not resolve "pass-by-reference" in Java, thus the code is repeating :/
 	public static void main(String[] args) {
 
+	
 		
-		for (int NdxObstacle = 0; NdxObstacle < NumObstacles; NdxObstacle++) {
+		for (int NdxObstacle = 0; NdxObstacle < NUM_OBSTACLES; NdxObstacle++) {
 
-//			// try to find free place for an obstacle
-//			while (true) {
-//				int x = randInt(0, COLS);
-//				int y = randInt(0, ROWS);
-//
-//				if (obstacles[x][y] == 0) {
-//					obstacles[x][y] = 1;
-//					break;
-//				}
-//
-//			}
+			// try to find free place for an obstacle
+			while (true) {
+				int x = randInt(0, COLS);
+				int y = randInt(0, ROWS);
+
+				if (obstacles[NdxObstacle] != null) {
+					obstacles[NdxObstacle].setX(x);
+					obstacles[NdxObstacle].setY(y);
+					break;
+				}
+
+			}
 
 		}
 
-/*		// try to find free place for a start position
+		// try to find free place for a start position
 		while (true) {
 			int x = randInt(0, COLS);
 			int y = randInt(0, ROWS);
 
-			if (start[x][y] == 0) {
-				start[x][y] = 1;
+			if (start != null) {
+				start.setX(x);
+				start.setY(y);
 				break;
 			}
 
@@ -54,12 +64,13 @@ public class Generator {
 			int x = randInt(0, COLS);
 			int y = randInt(0, ROWS);
 
-			if (stop[x][y] == 0) {
-				stop[x][y] = 1;
+			if (stop != null) {
+				stop.setX(x);
+				stop.setY(y);
 				break;
 			}
 
-		}*/
+		}
 
 	}
 

@@ -45,8 +45,8 @@ public class RouteFinder {
 		int NdxObstacle = 0;
 		for (Point p : gen.obstacles) {
 			// added offset so the tanks are in the middle of the tiles
-			double InitialObstacleCol = (double) p.getX_();
-			double InitialObstacleRow = (double) p.getY_();
+			double InitialObstacleCol = (double) p.getX();
+			double InitialObstacleRow = (double) p.getY();
 			existingRobots[NdxObstacle] = modelRobots[0];
 			robotSetups[NdxObstacle++] = new RobotSetup(InitialObstacleCol, InitialObstacleRow, 0.0);
 		}
@@ -55,8 +55,8 @@ public class RouteFinder {
 		 * Create the agent and place it in a random position without obstacle
 		 */
 		existingRobots[Generator.NUM_OBSTACLES] = modelRobots[1];
-		double InitialAgentCol = (double) gen.start.getX_();
-		double InitialAgentRow = (double) gen.start.getY_();
+		double InitialAgentCol = (double) gen.start.getX();
+		double InitialAgentRow = (double) gen.start.getY();
 		robotSetups[Generator.NUM_OBSTACLES] = new RobotSetup(InitialAgentCol, InitialAgentRow, 0.0);
 
 		/* Create and run the battle */

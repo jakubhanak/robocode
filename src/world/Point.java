@@ -9,12 +9,20 @@ public class Point{
         this.y = y;
     }
     
+    public Point() {
+    	this.x = -1;
+    	this.y = -1;
+    }
+    
     public int getX() {
-    	return x;
+    	return x * Generator.PX_STEP + Generator.PX_OFFSET;
     }
 
-    public int getX_() {
-        return x * Generator.PX_STEP + Generator.PX_OFFSET;
+    public int getX(boolean withoutOffset) {
+    	if (withoutOffset)
+    		return x;
+    	else
+    		return this.getX();
     }
 
     public void setX(int x) {
@@ -22,11 +30,14 @@ public class Point{
     }
     
     public int getY() {
-    	return y;
+    	return y * Generator.PX_STEP + Generator.PX_OFFSET;
     }
 
-    public int getY_() {
-        return y * Generator.PX_STEP + Generator.PX_OFFSET;
+    public int getY(boolean withoutOffset) {
+    	if (withoutOffset)
+    		return y;
+    	else
+    		return this.getY();
     }
 
     public void setY(int y) {

@@ -1,75 +1,74 @@
 package myrobot;
 
-import java.util.HashSet;
+import java.util.Arrays;
+//import java.util.HashSet;
+import java.util.TreeSet;
 import java.util.Set;
 
 import robocode.Robot;
 import world.Generator;
+import world.Node;
 import world.Point;
 
 
 public class FirstRobot extends Robot {
 
-	// cost is always 1 because we do not move on diagonals
-	public static final int G = 1;
 	
-	private static Generator gen = new Generator();
+	private Generator gen = new Generator();
 	
-	private static Set<Point> open = new HashSet<>();
-	private static Set<Point> closed = new HashSet<>();
+	private TreeSet<Node> open = new TreeSet<Node>();
+	private TreeSet<Node> closed = new TreeSet<Node>();
+//	private Node[] open, closed = new Node[];
 	
-	private static Point lowestP;
-	private static int lowestF = 0;
+//	private 
+	
+//	private static
 	
 	public void run() {
 
+		Node n = new Node(gen.start, new Point());
+		open.add(n);
 		
 		while (true) {
-		
-			open.add(gen.start);
+			n = open.first();
+			open.remove(n);	
+			closed.add(n);
+
 			
-			for (Point p : open) {
-				int H = Manhattan(p, gen.stop);
-				int F = G + H;
-				
-				if (lowestF == 0 || lowestF >= F) {
-					lowestF = F;
-					lowestP = p;
-				}
-			}
+			Point pu = new Point(n.getCurrent().getX(), n.getCurrent().getY() + 1);
+			Point pr = new Point(n.getCurrent().getX() + 1, n.getCurrent().getY());
+			Point pd = new Point(n.getCurrent().getX(), n.getCurrent().getY() - 1);
+			Point pl = new Point(n.getCurrent().getX() - 1, n.getCurrent().getY());
 			
-			open.remove(lowestP);
-			closed.add(lowestP);
+			Node nu = new Node(pu, n.getCurrent());
+			Node nr = new Node(pr, n.getCurrent());
+			Node nd = new Node(pd, n.getCurrent());
+			Node nl = new Node(pl, n.getCurrent());			
 			
-			Point pu = new Point(lowestP.getX(), lowestP.getY() + 1);
-			Point pr = new Point(lowestP.getX() + 1, lowestP.getY());
-			Point pd = new Point(lowestP.getX(), lowestP.getY() - 1);
-			Point pl = new Point(lowestP.getX() - 1, lowestP.getY());
-			
-			
-			
-//			if (lowestP)
+//			
+//			
+//			
+////			if (lowestP)
 		}
 
 	}
 	
-	private void calculatePoint(Point p) {
-		if (isWalkable(p)) {
-			if (!open.contains(p)) {
-				open.add(p);	
-			}
+	private void processPoint(Point p) {
+		if (isWalkable(p) && !closed.contains(p) && !open.contains(p)) {
+//			open.add(p);	
+			
 		}
 	}
 	
-	private boolean isWalkable(Point p) {
-		return (!gen.obstacles.contains(p) && 
-				!closed.contains(p) &&
-				p.getX() >= 0 && 
+	private boolean isInsideMap(Point p) {
+		return (p.getX() >= 0 && 
 				p.getX() < Generator.ROWS &&
 				p.getY() >= 0 &&
 				p.getY() < Generator.COLS);
 	}
 
+	
+	
 	private void turn(int dest) {
 		int curr = (int) getHeading();
 		if (curr != dest) {
@@ -85,10 +84,7 @@ public class FirstRobot extends Robot {
 		ahead(num * world.Generator.PX_STEP);
 	}
 
-	private int Manhattan(Point start, Point stop) {
-		return Math.abs(start.getX() - stop.getX()) + Math.abs(start.getX() - stop.getY());
-	}
-	
+
 	public void up() {
 		north();
 		steps(1);

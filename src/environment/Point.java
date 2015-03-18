@@ -1,6 +1,7 @@
 package environment;
 
 import environment.World;
+import environment.Node;
 
 public class Point{
 
@@ -17,6 +18,13 @@ public class Point{
     	this.world = world;
         this.col = col;
         this.row = row;
+    }
+    
+    // Backward conversion
+    public Point(World world, Node node) {
+    	this.world = world;
+    	this.col = (node.getX() - world.getSquareCornerOffset()) / world.getSquareEdgeLenght();
+    	this.row = (node.getY() - world.getSquareCornerOffset()) / world.getSquareEdgeLenght();
     }
     
     /**

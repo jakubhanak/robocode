@@ -1,10 +1,11 @@
 package myrobot;
 
-import java.util.TreeSet;
 
+import java.util.List;
+
+import environment.AStar;
 import environment.World;
 import environment.Node;
-import environment.Point;
 import robocode.Robot;
 
 
@@ -22,6 +23,10 @@ public class RouteFindingRobot extends Robot {
 //	private static
 	
 	public void run() {
+		
+		AStar aStar = new AStar(world);
+		
+		List<Node> nodes = aStar.getNodes();
 		
 		doNothing();
 		

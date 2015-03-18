@@ -2,6 +2,7 @@ package environment;
 
 import java.util.List;
 import java.util.ArrayList;
+import environment.World;
 
 public class Node {
 	
@@ -10,10 +11,16 @@ public class Node {
 	private int f;
 	private int g;
 	private int h;
-	private int x;
+	private int x;	
 	private int y;
-	private int cost;
+	private final int cost = 1;
 
+	public Node(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	
 	/**
 	 * @return the neighbors
 	 */
@@ -126,11 +133,12 @@ public class Node {
 		return cost;
 	}
 
-	/**
-	 * @param cost
-	 *            the cost to set
-	 */
-	public void setCost(int cost) {
-		this.cost = cost;
-	}
+
+//	/**
+//	 * @param cost
+//	 *            the cost to set
+//	 */
+//	public void setCost(int cost) {
+//		this.cost = cost;
+//	}
 }

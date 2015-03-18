@@ -2,6 +2,7 @@ package environment;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import environment.World;
 
 public class Node {
@@ -14,10 +15,39 @@ public class Node {
 	private int x;	
 	private int y;
 	private final int cost = 1;
+	
+	private int col;
+	private int row;
+	
+	private World world;
+	
 
-	public Node(int x, int y) {
+	public Node(World world, int x, int y) {
+		this.world = world;
 		this.x = x;
 		this.y = y;
+		
+		this.col = xToCol(x);
+		this.row = yToRow(y);
+	}
+
+	public Node(World world, int col, int row, boolean useRowsCols) {
+		this.world = world;
+		
+		if (useRowsCols) {
+			this.col = col;
+			this.row = row;
+			
+			this.x = colToX(col);
+			this.y = rowToY(row);
+		}
+		else {
+			this.x = col;
+			this.y = row;
+			
+			this.col = xToCol(col);
+			this.row = yToRow(row);	
+		}
 	}
 	
 	
@@ -109,6 +139,7 @@ public class Node {
 	 */
 	public void setX(int x) {
 		this.x = x;
+		this.col = xToCol(x);
 	}
 
 	/**
@@ -124,6 +155,7 @@ public class Node {
 	 */
 	public void setY(int y) {
 		this.y = y;
+		this.row = yToRow(y);
 	}
 
 	/**
@@ -133,12 +165,68 @@ public class Node {
 		return cost;
 	}
 
+    /**
+     * @return
+     */
+    public int getCol() {
+    	return col;
+    }
+    
+    /**
+     * @param col
+     */
+    public void setCol(int col) {
+    	this.col = col;
+    	this.x = colToX(col);
+    }
+    
+    /**
+     * @return
+     */
+    public int getRow() {
+    	return row;
+    }
+    
+    /**
+     * @param row
+     */
+    public void setRow(int row) {
+    	this.row = row;
+    	this.y = rowToY(row);
+    }
 
-//	/**
-//	 * @param cost
-//	 *            the cost to set
-//	 */
-//	public void setCost(int cost) {
-//		this.cost = cost;
-//	}
+    public int colToX(int col) {
+		return col * world.getSquareEdgeLenght() + world.getSquareCornerOffset();
+	}
+    
+    public int rowToY(int row) {
+    	return colToX(row);
+    }
+    
+    public int xToCol(int x) {
+    	return (x - world.getSquareCornerOffset()) / world.getSquareEdgeLenght();
+    }
+    
+    public int yToRow(int y) {
+    	return xToCol(y);
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Node node = (Node) o;
+
+        if (col != node.col) return false;
+        if (row != node.row) return false;
+
+        return true;
+    }
+
+    @Override 
+    public int hashCode() {
+        return world.getSquareEdgeLenght() * col + row;
+    }	
+
 }

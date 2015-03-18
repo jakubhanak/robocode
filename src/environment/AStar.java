@@ -23,8 +23,8 @@ public class AStar {
 		Set<Node> open = new HashSet<Node>();
 		Set<Node> closed = new HashSet<Node>();
 
-		Node start = new Node(world.getStart().getX(), world.getStart().getY());
-		Node stop = new Node(world.getStop().getX(), world.getStop().getY());
+		Node start = new Node(world, world.getStart().getX(), world.getStart().getY());
+		Node stop = new Node(world, world.getStop().getX(), world.getStop().getY());
 
 		start.setG(0);
 		start.setH(manhattanDistance(start, stop));
@@ -53,10 +53,10 @@ public class AStar {
 			closed.add(current);
 
 			List<Node> neighbors = new ArrayList<Node>();
-			neighbors.add(new Node(current.getX() + world.getSquareEdgeLenght(), current.getY()));
-			neighbors.add(new Node(current.getX() - world.getSquareEdgeLenght(), current.getY()));
-			neighbors.add(new Node(current.getX(), current.getY() + world.getSquareEdgeLenght()));
-			neighbors.add(new Node(current.getX(), current.getY() - world.getSquareEdgeLenght()));
+			neighbors.add(new Node(world, current.getX() + world.getSquareEdgeLenght(), current.getY()));
+			neighbors.add(new Node(world, current.getX() - world.getSquareEdgeLenght(), current.getY()));
+			neighbors.add(new Node(world, current.getX(), current.getY() + world.getSquareEdgeLenght()));
+			neighbors.add(new Node(world, current.getX(), current.getY() - world.getSquareEdgeLenght()));
 			current.setNeighbors(neighbors);
 
 			for (Node neighbor : current.getNeighbors()) {
@@ -96,9 +96,7 @@ public class AStar {
 	}
 
 	private boolean isOccupied(Node node) {
-		// We need to convert since obstacles in in points not nodes
-		Point point = new Point(world, node);
-		return world.getObstacles().contains(point);
+		return world.getObstacles().contains(node);
 	}
 
 	private boolean isOutsideMap(Node node) {

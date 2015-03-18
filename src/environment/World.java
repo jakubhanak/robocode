@@ -3,6 +3,7 @@ package environment;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Random;
+import environment.Node;
 
 public class World {
 
@@ -20,9 +21,9 @@ public class World {
 	// Obstacle (sitting ducks) count
 	private final int NUM_OBSTACLES = (int) (NUM_COLS * NUM_ROWS * 0.25);
 
-	// Contains poistions of obstacles, start point and destination
-	private Set<Point> obstacles = new HashSet<>();
-	private Point start, stop;
+	// Contains poistions of obstacles, start node and destination
+	private Set<Node> obstacles = new HashSet<>();
+	private Node start, stop;
 
 	// PRNG instance
 	private Random rand;
@@ -91,21 +92,21 @@ public class World {
 	/**
 	 * @return the obstacles
 	 */
-	public Set<Point> getObstacles() {
+	public Set<Node> getObstacles() {
 		return obstacles;
 	}
 
 	/**
-	 * @return the start point
+	 * @return the start node
 	 */
-	public Point getStart() {
+	public Node getStart() {
 		return start;
 	}
 
 	/**
-	 * @return the stop point
+	 * @return the stop node
 	 */
-	public Point getStop() {
+	public Node getStop() {
 		return stop;
 	}
 
@@ -125,19 +126,19 @@ public class World {
 	}	
 	
 
-	private Point fillEmptyPosition() {
+	private Node fillEmptyPosition() {
 		// try to find free place for an obstacle
 		while (true) {
 
 			int col = randInt(0, getNumCols() - 1);
 			int row = randInt(0, getNumRows() - 1);
 
-			// Generate point in this world
-			Point point = new Point(this, col, row);
+			// Generate node in this world
+			Node node = new Node(this, col, row);
 			
-			// Check if the point is still free
-			if (!obstacles.contains(point) && start != point && stop != point) {
-				return point;
+			// Check if the node is still free
+			if (!obstacles.contains(node) && start != node && stop != node) {
+				return node;
 			}
 		}
 	}

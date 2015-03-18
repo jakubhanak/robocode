@@ -1,4 +1,4 @@
-package world;
+package environment;
 
 import robocode.control.*;
 //import world.Coordinate;
@@ -10,7 +10,7 @@ public class RouteFinder {
 	public static void main(String[] args) {
 
 		// Location of the robocode, e.g. "C:/robocode"
-		String location = "/opt/robocode";
+		final String location = "/opt/robocode";
 
 		// Setup battle parameters
 		int numberOfRounds = 1;
@@ -24,42 +24,36 @@ public class RouteFinder {
 
 		// Show the Robocode battle view
 		engine.setVisible(true);
-
-		Generator gen = new Generator();
+		
+		// The world instance with the obstacles, the start and the stop position
+		World world = new World();
 		
 		// Create the battlefield
-		int NumPixelCols = Generator.COLS * Generator.PX_STEP;
-		int NumPixelRows = Generator.ROWS * Generator.PX_STEP;
-
-		BattlefieldSpecification battlefield = new BattlefieldSpecification(NumPixelCols, NumPixelRows);
+		BattlefieldSpecification battlefield = new BattlefieldSpecification(world.getWorldWidth(), world.getWorldHeight());
 		
 
-		/*
-		 * Create obstacles and place them at random so that no pair of obstacles are at the same position
-		 */
-		RobotSpecification[] modelRobots = engine.getLocalRepository("sample.SittingDuck,myrobot.FirstRobot*");
+		// Create obstacles and place them at random so that no pair of obstacles are at the same position
+		RobotSpecification[] modelRobots = engine.getLocalRepository("sample.SittingDuck,myrobot.RouteFindingRobot*");
 
-		RobotSpecification[] existingRobots = new RobotSpecification[Generator.NUM_OBSTACLES + 1];
-		RobotSetup[] robotSetups = new RobotSetup[Generator.NUM_OBSTACLES + 1];
+		RobotSpecification[] existingRobots = new RobotSpecification[world.getNumObstacles() + 1];
+		RobotSetup[] robotSetups = new RobotSetup[world.getNumObstacles() + 1];
 
 		int NdxObstacle = 0;
-		for (Point p : gen.obstacles) {
+		for (Point point : world.getObstacles()) {
 			// added offset so the tanks are in the middle of the tiles
-			double InitialObstacleCol = (double) p.getX();
-			double InitialObstacleRow = (double) p.getY();
+			double InitialObstacleCol = (double) point.getX();
+			double InitialObstacleRow = (double) point.getY();
 			existingRobots[NdxObstacle] = modelRobots[0];
 			robotSetups[NdxObstacle++] = new RobotSetup(InitialObstacleCol, InitialObstacleRow, 0.0);
 		}
 
-		/*
-		 * Create the agent and place it in a random position without obstacle
-		 */
-		existingRobots[Generator.NUM_OBSTACLES] = modelRobots[1];
-		double InitialAgentCol = (double) gen.start.getX();
-		double InitialAgentRow = (double) gen.start.getY();
-		robotSetups[Generator.NUM_OBSTACLES] = new RobotSetup(InitialAgentCol, InitialAgentRow, 0.0);
+		// Create the agent and place it in a random position without obstacle
+		existingRobots[world.getNumObstacles()] = modelRobots[1];
+		double InitialAgentCol = (double) world.getStart().getX();
+		double InitialAgentRow = (double) world.getStart().getY();
+		robotSetups[world.getNumObstacles()] = new RobotSetup(InitialAgentCol, InitialAgentRow, 0.0);
 
-		/* Create and run the battle */
+		// Create and run the battle
 		BattleSpecification battleSpec = new BattleSpecification(battlefield, numberOfRounds, inactivityTime, gunCoolingRate,
 				sentryBorderSize, hideEnemyNames, existingRobots, robotSetups);
 

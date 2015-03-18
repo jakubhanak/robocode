@@ -48,6 +48,9 @@ public class FirstRobot extends Robot {
 					if (!closed.contains(adj)) {
 						open.add(adj);
 					}
+					else if (open.contains(adj)) {
+						
+					}
 				}
 			}
 			

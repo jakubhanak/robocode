@@ -1,9 +1,6 @@
 package myrobot;
 
-import java.util.Arrays;
-//import java.util.HashSet;
 import java.util.TreeSet;
-import java.util.Set;
 
 import robocode.Robot;
 import world.Generator;
@@ -34,16 +31,30 @@ public class FirstRobot extends Robot {
 			open.remove(n);	
 			closed.add(n);
 
+			Point[] points = new Point[4];
 			
-			Point pu = new Point(n.getCurrent().getX(), n.getCurrent().getY() + 1);
-			Point pr = new Point(n.getCurrent().getX() + 1, n.getCurrent().getY());
-			Point pd = new Point(n.getCurrent().getX(), n.getCurrent().getY() - 1);
-			Point pl = new Point(n.getCurrent().getX() - 1, n.getCurrent().getY());
+			// Upper square
+			points[0] = new Point(n.getCurrent().getX(), n.getCurrent().getY() + Generator.PX_STEP);
+			// Right square
+			points[1] = new Point(n.getCurrent().getX() + Generator.PX_STEP, n.getCurrent().getY());
+			// Lower square
+			points[2] = new Point(n.getCurrent().getX(), n.getCurrent().getY() - Generator.PX_STEP);
+			// Left square
+			points[3] = new Point(n.getCurrent().getX() - Generator.PX_STEP, n.getCurrent().getY());
 			
-			Node nu = new Node(pu, n.getCurrent());
-			Node nr = new Node(pr, n.getCurrent());
-			Node nd = new Node(pd, n.getCurrent());
-			Node nl = new Node(pl, n.getCurrent());			
+			for (Point p : points) {
+				if (isInsideMap(p) && isClear(p)) {
+					Node adj = new Node(p, n.getCurrent());
+					if (!closed.contains(adj)) {
+						open.add(adj);
+					}
+				}
+			}
+			
+//			Node nu = new Node(pu, n.getCurrent());
+//			Node nr = new Node(pr, n.getCurrent());
+//			Node nd = new Node(pd, n.getCurrent());
+//			Node nl = new Node(pl, n.getCurrent());			
 			
 //			
 //			
@@ -53,18 +64,22 @@ public class FirstRobot extends Robot {
 
 	}
 	
-	private void processPoint(Point p) {
-		if (isWalkable(p) && !closed.contains(p) && !open.contains(p)) {
-//			open.add(p);	
-			
-		}
+//	private void processPoint(Point p) {
+//		if (isWalkable(p) && !closed.contains(p) && !open.contains(p)) {
+////			open.add(p);	
+//			
+//		}
+//	}
+//	
+	private boolean isClear(Point p) {
+		return !gen.obstacles.contains(p);
 	}
 	
 	private boolean isInsideMap(Point p) {
-		return (p.getX() >= 0 && 
-				p.getX() < Generator.ROWS &&
-				p.getY() >= 0 &&
-				p.getY() < Generator.COLS);
+		return (p.getX(true) >= 0 && 
+				p.getX(true) < Generator.COLS * Generator.PX_STEP &&
+				p.getY(true) >= 0 &&
+				p.getY(true) < Generator.ROWS * Generator.PX_STEP);
 	}
 
 	
@@ -81,7 +96,7 @@ public class FirstRobot extends Robot {
 	}
 	
 	public void steps(int num) {
-		ahead(num * world.Generator.PX_STEP);
+		ahead(num * Generator.PX_STEP);
 	}
 
 

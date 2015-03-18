@@ -8,17 +8,18 @@ public class Node implements Comparable<Node>{
 //	
 //	public static Point lowestP;
 	
-	public static final int G = 1;
+	public static final int COST = 1;
 	
 	private Point current, parent;
 	
-	private int F, H;
+	private int F, G, H;
 
 	public Node(Point current, Point parent) {
 		
 		this.current = current;
 		this.parent = parent;
 		
+		G += COST;
 		H = manhattan(parent, current);
 		F = G + H;
 	}

@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 import environment.World;
 
+/**
+ * @author delmadord
+ *
+ */
 public class Node {
 	
 	private List<Node> neighbors = new ArrayList<Node>();

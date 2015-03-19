@@ -8,7 +8,8 @@ import environment.Node;
 public class World {
 
 	// PRNG seed - level
-	private final int LEVEL = 4;
+//	private final int LEVEL = 25;
+	private final int LEVEL = 25;
 
 	// Dimensional constants to match the background's grid pattern
 	private final int SQUARE_EDGE_LENGHT = 64;

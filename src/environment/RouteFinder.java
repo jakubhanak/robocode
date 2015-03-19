@@ -39,10 +39,10 @@ public class RouteFinder {
 		RobotSetup[] robotSetups = new RobotSetup[world.getNumObstacles() + 1];
 
 		int NdxObstacle = 0;
-		for (Node point : world.getObstacles()) {
+		for (Node node : world.getObstacles()) {
 			// added offset so the tanks are in the middle of the tiles
-			double InitialObstacleCol = (double) point.getX();
-			double InitialObstacleRow = (double) point.getY();
+			double InitialObstacleCol = (double) node.getX();
+			double InitialObstacleRow = (double) node.getY();
 			existingRobots[NdxObstacle] = modelRobots[0];
 			robotSetups[NdxObstacle++] = new RobotSetup(InitialObstacleCol, InitialObstacleRow, 0.0);
 		}

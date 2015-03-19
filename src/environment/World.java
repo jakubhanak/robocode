@@ -8,7 +8,7 @@ import environment.Node;
 public class World {
 
 	// PRNG seed - level
-	private final int LEVEL = 2;
+	private final int LEVEL = 4;
 
 	// Dimensional constants to match the background's grid pattern
 	private final int SQUARE_EDGE_LENGHT = 64;
@@ -133,8 +133,8 @@ public class World {
 			int col = randInt(0, getNumCols() - 1);
 			int row = randInt(0, getNumRows() - 1);
 
-			// Generate node in this world
-			Node node = new Node(this, col, row);
+			// Generate node in this world (true for rows and cols not x and y)
+			Node node = new Node(this, col, row, true);
 			
 			// Check if the node is still free
 			if (!obstacles.contains(node) && start != node && stop != node) {

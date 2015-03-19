@@ -1,149 +1,112 @@
 package myrobot;
 
-
+import java.awt.Graphics2D;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import environment.AStar;
 import environment.World;
 import environment.Node;
 import robocode.Robot;
 
-
 public class RouteFindingRobot extends Robot {
 
-	
 	private World world = new World();
-	
-//	private TreeSet<Node> open = new TreeSet<Node>();
-//	private TreeSet<Node> closed = new TreeSet<Node>();
-//	private Node[] open, closed = new Node[];
-	
-//	private 
-	
-//	private static
-	
+
 	public void run() {
-		
+
 		AStar aStar = new AStar(world);
-		
+
 		List<Node> nodes = aStar.getNodes();
+
 		
+		
+		for (Node node : Lists.reverse(nodes)) {
+			Node parent = node.getParent();
+			if (parent != null)
+				followPath(node, parent);
+		}
+
 		doNothing();
-		
-//		Node n = new Node(gen.start, new Point());
-//		open.add(n);
-//		
-//		while (true) {
-//			n = open.first();
-//			open.remove(n);	
-//			closed.add(n);
-//
-//			Point[] points = new Point[4];
-//			
-//			// Upper square
-//			points[0] = new Point(n.getCurrent().getX(), n.getCurrent().getY() + Generator.PX_STEP);
-//			// Right square
-//			points[1] = new Point(n.getCurrent().getX() + Generator.PX_STEP, n.getCurrent().getY());
-//			// Lower square
-//			points[2] = new Point(n.getCurrent().getX(), n.getCurrent().getY() - Generator.PX_STEP);
-//			// Left square
-//			points[3] = new Point(n.getCurrent().getX() - Generator.PX_STEP, n.getCurrent().getY());
-//			
-//			for (Point p : points) {
-//				if (isInsideMap(p) && isClear(p)) {
-//					Node adj = new Node(p, n.getCurrent());
-//					if (!closed.contains(adj)) {
-//						open.add(adj);
-//					}
-//					else if (open.contains(adj)) {
-////						open.
-//					}
-//				}
-//			}
-			
-//			Node nu = new Node(pu, n.getCurrent());
-//			Node nr = new Node(pr, n.getCurrent());
-//			Node nd = new Node(pd, n.getCurrent());
-//			Node nl = new Node(pl, n.getCurrent());			
-			
-//			
-//			
-//			
-////			if (lowestP)
-//		}
 
 	}
-	
-//	private void processPoint(Point p) {
-//		if (isWalkable(p) && !closed.contains(p) && !open.contains(p)) {
-////			open.add(p);	
-//			
-//		}
-//	}
-//	
-//	private boolean isClear(Point p) {
-//		return !world.obstacles.contains(p);
-//	}
-//	
-//	private boolean isInsideMap(Point p) {
-//		return (p.getX() >= 0 && 
-//				p.getX() < World.NUM_COLS * World.SQUARE_EDGE_LENGHT &&
-//				p.getY() >= 0 &&
-//				p.getY() < World.NUM_ROWS * World.SQUARE_EDGE_LENGHT);
-//	}
 
-	
-	
-	private void turn(int dest) {
-		int curr = (int) getHeading();
-		if (curr != dest) {
-			int diff = curr - dest;
-			if (Math.abs(diff) > 180)
-				turnRight(diff % 180);
+	public void onPaint(Graphics2D g) {
+		// Set the paint color to red
+		g.setColor(java.awt.Color.GREEN);
+		// Paint a filled rectangle at (50,50) at size 100x150 pixels
+		g.fillRect(world.getStop().getX() - 16,
+				world.getStop().getY() - 16, 32, 32);
+	}
+
+	private void followPath(Node node, Node parent) {
+		if (node.getCol() < parent.getCol())
+			left();
+		else if (node.getCol() > parent.getCol())
+			right();
+		else if (node.getRow() < parent.getRow())
+			down();
+		else if (node.getRow() > parent.getRow())
+			up();
+		else
+			throw new RuntimeException("wrong movement");
+
+	}
+
+	private void turn(int destination) {
+		int current = (int) getHeading();
+		if (current != destination) {
+			int difference = current - destination;
+			if (Math.abs(difference) > 180)
+				turnRight(difference % 180);
 			else
-				turnLeft(diff);
+				turnLeft(difference);
 		}
 	}
-	
-	public void steps(int num) {
+
+	private void steps(int num) {
 		ahead(num * world.getSquareEdgeLenght());
 	}
 
+	private void step() {
+		steps(1);
+	}
 
-	public void up() {
+	private void up() {
 		north();
-		steps(1);
+		step();
 	}
-	
-	public void right() {
+
+	private void right() {
 		east();
-		steps(1);
+		step();
 	}
-	
-	public void down() {
+
+	private void down() {
 		south();
-		steps(1);
+		step();
 	}
-	
-	public void left() {
+
+	private void left() {
 		west();
 		steps(1);
 	}
 
-	public void north() {
+	private void north() {
 		turn(0);
 	}
 
-	public void east() {
+	private void east() {
 		turn(90);
 	}
 
-	public void south() {
+	private void south() {
 		turn(180);
 	}
 
-	public void west() {
+	private void west() {
 		turn(270);
-	}	
+	}
 
 }

@@ -45,7 +45,8 @@ public class AStar {
 				}
 			}
 
-			if (current == stop) {
+			if (current.equals(stop)) {
+				stop.setParent(current.getParent());
 				break;
 			}
 
@@ -59,6 +60,7 @@ public class AStar {
 			neighbors.add(new Node(world, current.getX(), current.getY() - world.getSquareEdgeLenght()));
 			current.setNeighbors(neighbors);
 
+			
 			for (Node neighbor : current.getNeighbors()) {
 				if (neighbor == null || isOccupied(neighbor) || isOutsideMap(neighbor)) {
 					continue;

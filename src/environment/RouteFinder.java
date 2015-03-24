@@ -44,7 +44,7 @@ public class RouteFinder {
 			double InitialObstacleCol = (double) node.getX();
 			double InitialObstacleRow = (double) node.getY();
 			existingRobots[NdxObstacle] = modelRobots[0];
-			robotSetups[NdxObstacle++] = new RobotSetup(InitialObstacleCol, InitialObstacleRow, 0.0);
+			robotSetups[NdxObstacle++] = new RobotSetup(InitialObstacleCol, InitialObstacleRow, 180.0);
 		}
 
 		// Create the agent and place it in a random position without obstacle

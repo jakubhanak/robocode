@@ -1,3 +1,3 @@
 # robocode
 
-Don't forget to link `./src/myrobot/` to `C:/robocode/robots/myrobot/`
+Don't forget to link `./bin/myrobot/` to `C:/robocode/robots/myrobot/`
